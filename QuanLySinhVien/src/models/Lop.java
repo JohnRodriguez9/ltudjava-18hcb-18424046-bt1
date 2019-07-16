@@ -18,7 +18,7 @@ public class Lop {
     
     public Lop() {
         this.maLop = "";
-        this.danhSachSinhVien = new ArrayList<SinhVien>();
+        this.danhSachSinhVien = new ArrayList<>();
     }
     
     // getter
@@ -43,7 +43,14 @@ public class Lop {
         System.out.println("Lop: " + this.maLop);
         
         this.danhSachSinhVien.forEach((sinhVien) -> {
-            sinhVien.XuatSinhVien();
+            sinhVien.Xuat();
         });
+    }
+    
+    public void ThemSinhVien(SinhVien sv) {
+        if (sv != null) { 
+            sv.Nhap();
+            this.danhSachSinhVien.add(sv);
+        }
     }
 }

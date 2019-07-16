@@ -5,6 +5,8 @@
  */
 package models;
 
+import java.util.Scanner;
+
 /**
  *
  * @author Nhan
@@ -63,10 +65,29 @@ public class SinhVien {
         this.cmnd = cmnd;
     }
     
-    public void XuatSinhVien() {
+    public void Nhap() {
+        System.out.print("Nhập MSSV: ");
+        Scanner nhapMSSV = new Scanner(System.in);
+        this.mssv = Integer.parseInt(nhapMSSV.nextLine());
+        
+        System.out.print("Nhập họ và tên: ");
+        Scanner nhapHoTen = new Scanner(System.in);
+        this.hoTen = nhapHoTen.nextLine();
+        
+        System.out.print("Nhập giới tính: " + this.gioiTinh);
+        Scanner nhapGioiTinh = new Scanner(System.in);
+        this.gioiTinh = nhapGioiTinh.nextLine();
+        
+        System.out.print("Nhập CMND: " + this.cmnd);
+        Scanner nhapCMND = new Scanner(System.in);
+        this.cmnd = nhapCMND.nextLine();
+    }
+    
+    public void Xuat() {
         System.out.println("MSSV: " + this.mssv);
         System.out.println("Họ tên: " + this.hoTen);
         System.out.println("Giới tính: " + this.gioiTinh);
         System.out.println("CMND: " + this.cmnd);
+        System.out.println();
     }
 }
