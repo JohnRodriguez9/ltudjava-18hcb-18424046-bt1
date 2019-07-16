@@ -62,4 +62,11 @@ public class SinhVien {
     public void cmnd(String cmnd) {
         this.cmnd = cmnd;
     }
+    
+    public void XuatSinhVien() {
+        System.out.println("MSSV: " + this.mssv);
+        System.out.println("Họ tên: " + this.hoTen);
+        System.out.println("Giới tính: " + this.gioiTinh);
+        System.out.println("CMND: " + this.cmnd);
+    }
 }

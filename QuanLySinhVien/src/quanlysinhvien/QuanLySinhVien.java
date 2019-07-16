@@ -13,7 +13,9 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.StringTokenizer;
+import models.Lop;
 import models.SinhVien;
 
 /**
@@ -22,17 +24,14 @@ import models.SinhVien;
  */
 public class QuanLySinhVien {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) throws UnsupportedEncodingException, FileNotFoundException, IOException {
-        // TODO code application logic here
+    public static List<SinhVien> DocFile(String tenFile, String dinhDang) throws 
+            UnsupportedEncodingException, FileNotFoundException, IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(
-            new FileInputStream("Data/Demo.csv"), "UTF-8"));
+        new FileInputStream("Data/Demo.csv"), "UTF-8"));
+        
+        String line = null;
         List<String> lines = new ArrayList<>();
         List<SinhVien> listSinhVien = new ArrayList<SinhVien>();
-        List<String> tokenLine = new ArrayList<>();
-        String line = null;
         
         while ((line = reader.readLine()) != null) {
             lines.add(line);
@@ -49,12 +48,29 @@ public class QuanLySinhVien {
             listSinhVien.add(sv);
         });
         
-        listSinhVien.forEach((sinhVien) -> {
-            System.out.println(sinhVien.MSSV());
-            System.out.println(sinhVien.HoTen());
-            System.out.println(sinhVien.GioiTinh());
-            System.out.println(sinhVien.CMND());
-        });
+        reader.close();
+        
+        return listSinhVien;
+    }
+    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) throws FileNotFoundException, IOException {
+        // TODO code application logic here
+        
+        System.out.print("Nhap ten lop: ");
+        Scanner nhapTenLop = new Scanner(System.in);
+        
+        String tenLop = nhapTenLop.nextLine();
+        
+        List<SinhVien> listSinhVien = DocFile("Data/Demo.csv", "UTF-8");
+        System.out.println("Lop ban vua nhap: " + tenLop);
+         
+        Lop lop = new Lop();
+        lop.maLop(tenLop);
+        lop.danhSachSinhVien(listSinhVien);
+        lop.Xuat();
     }
     
 }

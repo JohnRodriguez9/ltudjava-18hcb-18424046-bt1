@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Lop {
     private String maLop;
-    private ArrayList<SinhVien> danhSachSinhVien;
+    private List<SinhVien> danhSachSinhVien;
     
     public Lop() {
         this.maLop = "";
@@ -26,7 +26,7 @@ public class Lop {
         return this.maLop;
     }
     
-    public ArrayList<SinhVien> DanhSachSinhVien() {
+    public List<SinhVien> DanhSachSinhVien() {
         return this.danhSachSinhVien;
     }
     
@@ -35,7 +35,15 @@ public class Lop {
         this.maLop = maLop;
     }
     
-    public void danhSachSinhVien(ArrayList<SinhVien> danhSachSinhVien) {
+    public void danhSachSinhVien(List<SinhVien> danhSachSinhVien) {
         this.danhSachSinhVien = danhSachSinhVien;
+    }
+    
+    public void Xuat() {
+        System.out.println("Lop: " + this.maLop);
+        
+        this.danhSachSinhVien.forEach((sinhVien) -> {
+            sinhVien.XuatSinhVien();
+        });
     }
 }
