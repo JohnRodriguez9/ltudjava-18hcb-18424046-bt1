@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  *
- * @author DELL
+ * @author Nhan
  */
 public class Lop {
     private String maLop;
@@ -40,7 +40,7 @@ public class Lop {
     }
     
     public void Xuat() {
-        System.out.println("Lop: " + this.maLop);
+        System.out.println("Lớp: " + this.maLop);
         
         this.danhSachSinhVien.forEach((sinhVien) -> {
             sinhVien.Xuat();
