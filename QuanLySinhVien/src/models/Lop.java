@@ -40,11 +40,14 @@ public class Lop {
     }
     
     public void Xuat() {
-        System.out.println("Lớp: " + this.maLop);
+        System.out.println("Lop: " + this.maLop);
         
+        System.out.printf("%10s %15s %10s %12s", "MSSV", "Ho ten", "Gioi Tinh", "CMND");
+        System.out.println();
         this.danhSachSinhVien.forEach((sinhVien) -> {
             sinhVien.Xuat();
         });
+        System.out.println();
     }
     
     public void ThemSinhVien(SinhVien sv) {

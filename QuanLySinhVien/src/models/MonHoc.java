@@ -48,9 +48,7 @@ public class MonHoc {
     }
     
     public void Xuat() {
-        System.out.println("Mã môn học: " + this.maMonHoc);
-        System.out.println("Tên môn học: " + this.tenMonHoc);
-        System.out.println("Phòng học: " + this.phongHoc);
+        System.out.println();
         System.out.println();
     }
 }

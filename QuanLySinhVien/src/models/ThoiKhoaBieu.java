@@ -41,7 +41,9 @@ public class ThoiKhoaBieu {
     }
     
     public void Xuat() {
-        System.out.println("Lớp: " + this.lop.MaLop());
+        System.out.println("Lop: " + this.lop.MaLop());
+        
+        System.out.printf("%10s %15s %10s", "Ma mon hoc", "Ten mon hoc", "Phong hoc");
         
         this.danhSachMonHoc.forEach((monHoc) -> {
             monHoc.Xuat();
