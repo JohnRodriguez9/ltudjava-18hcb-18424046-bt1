@@ -91,6 +91,7 @@ public class QuanLySinhVien {
 
         List<SinhVien> listSinhVien = DocDanhSachLop("Data/Lop/17HCB.csv", "UTF-8");
         List<Lop> danhSachLop = new ArrayList<>();
+        List<ThoiKhoaBieu> danhSachThoiKhoaBieu = new ArrayList<>();
         Lop lop = new Lop();
         lop.maLop("17HCB");
         lop.danhSachSinhVien(listSinhVien);
@@ -141,6 +142,8 @@ public class QuanLySinhVien {
                 lopMonHoc.DanhSachSinHVienMonHoc(listSinhVien);
                 danhSachLopMonHoc.add(lopMonHoc);
             }); 
+            
+            danhSachThoiKhoaBieu.add(thoiKhoaBieu);
         }
 
         /*
@@ -164,6 +167,8 @@ public class QuanLySinhVien {
                 lopMonHoc1.DanhSachSinHVienMonHoc(listSinhVien1);
                 danhSachLopMonHoc.add(lopMonHoc1);
             }); 
+            
+            danhSachThoiKhoaBieu.add(thoiKhoaBieu1);
         }
                
         /*
@@ -266,6 +271,19 @@ public class QuanLySinhVien {
                     danhSachLopMonHoc.get(i).Xuat();
                     break;
                 }
+            }
+        }
+        
+        System.out.print("Nhap lop ban muon xem thoi khoa bieu: ");
+        Scanner nhapXemThoiKhoaBieu = new Scanner(new InputStreamReader(System.in));
+        String xemThoiKhoaBieuLop = nhapXemThoiKhoaBieu.nextLine();
+        
+        for (int i = 0; i < danhSachThoiKhoaBieu.size(); i++) {
+            String layMaLop = danhSachThoiKhoaBieu.get(i).Lop().MaLop();
+            
+            if (xemThoiKhoaBieuLop.equals(layMaLop)) {
+                danhSachThoiKhoaBieu.get(i).Xuat();
+                break;
             }
         }
     }
