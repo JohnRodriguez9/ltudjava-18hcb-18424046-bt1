@@ -53,7 +53,7 @@ public class SinhVien {
         this.mssv = mssv;
     }
     
-    public void hoten(String hoTen) {
+    public void hoTen(String hoTen) {
         this.hoTen = hoTen;
     }
     

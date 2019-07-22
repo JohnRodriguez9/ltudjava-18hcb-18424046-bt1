@@ -56,4 +56,20 @@ public class Lop {
             this.danhSachSinhVien.add(sv);
         }
     }
+    
+    // Tim kiem sinh vien theo mssv tuong ung
+    public SinhVien TimSinhVien(int mssv) {
+        SinhVien sv = new SinhVien();
+        
+        this.danhSachSinhVien.forEach((sinhVien) -> {
+            if (sinhVien.MSSV() == mssv) {
+                sv.mssv(sinhVien.MSSV());
+                sv.hoTen(sinhVien.HoTen());
+                sv.gioiTinh(sinhVien.GioiTinh());
+                sv.cmnd(sinhVien.CMND());
+            }
+        });
+        
+        return sv;
+    }
 }

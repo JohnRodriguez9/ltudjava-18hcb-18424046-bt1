@@ -57,11 +57,13 @@ public class LopMonHoc {
         if (sv != null) { 
             this.danhSachSinhVienMonHoc.forEach((sinhVienMonHoc) -> {
                 if (sinhVienMonHoc.MSSV() == sv.MSSV()) {
-                   return;
+                   System.out.println("Mon hoc nay sinh vien da dang ky. Xin vui long kiem tra lai");
                 }
+                return;
             });
             
             this.danhSachSinhVienMonHoc.add(sv);
+            this.danhSachSinhVienMonHoc.sort(Comparator.comparing(SinhVien::MSSV));
         }
     }
     
