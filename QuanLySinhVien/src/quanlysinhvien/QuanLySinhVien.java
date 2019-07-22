@@ -90,16 +90,19 @@ public class QuanLySinhVien {
         // TODO code application logic here
 
         List<SinhVien> listSinhVien = DocDanhSachLop("Data/Lop/17HCB.csv", "UTF-8");
+        List<Lop> danhSachLop = new ArrayList<>();
         Lop lop = new Lop();
         lop.maLop("17HCB");
         lop.danhSachSinhVien(listSinhVien);
-        lop.Xuat();
+        danhSachLop.add(lop);
+        //lop.Xuat();
 
         List<SinhVien> listSinhVien1 = DocDanhSachLop("Data/Lop/18HCB.csv", "UTF-8");
         Lop lop1 = new Lop();
         lop1.maLop("18HCB");
         lop1.danhSachSinhVien(listSinhVien1);
-        lop1.Xuat();
+        //lop1.Xuat();
+        danhSachLop.add(lop1);
 
         /*
         System.out.print("Nhap lớp muốn thêm sinh viên: ");
@@ -129,7 +132,7 @@ public class QuanLySinhVien {
 
             thoiKhoaBieu.lop(lop);
             thoiKhoaBieu.danhSachMonHoc(listMonHoc);
-            thoiKhoaBieu.Xuat();
+            //thoiKhoaBieu.Xuat();
             
             thoiKhoaBieu.DanhSachMonHoc().forEach((monHoc) -> {
                 LopMonHoc lopMonHoc = new LopMonHoc();
@@ -152,7 +155,7 @@ public class QuanLySinhVien {
 
             thoiKhoaBieu1.lop(lop1);
             thoiKhoaBieu1.danhSachMonHoc(listMonHoc1);
-            thoiKhoaBieu1.Xuat();
+            //thoiKhoaBieu1.Xuat();
             
             thoiKhoaBieu1.DanhSachMonHoc().forEach((monHoc) -> {
                 LopMonHoc lopMonHoc1 = new LopMonHoc();
@@ -162,16 +165,18 @@ public class QuanLySinhVien {
                 danhSachLopMonHoc.add(lopMonHoc1);
             }); 
         }
-                
+               
+        /*
         danhSachLopMonHoc.forEach((lopMonHoc) -> {
             lopMonHoc.Xuat();
         });
+        */
 
         System.out.print("Nhap lua chon cua ban(1: Chon khong hoc mon hoc, 2: Dang ky hoc cai thien): ");
-        Scanner nhapLuaChon = new Scanner(System.in);
-        String luaChon = nhapLuaChon.nextLine();
+        Scanner nhapLuaChonMonHoc = new Scanner(System.in);
+        String luaChonMonHoc = nhapLuaChonMonHoc.nextLine();
         
-        if(luaChon.equals("1")) {
+        if(luaChonMonHoc.equals("1")) {
             System.out.print("Nhap MSSV: ");
             Scanner nhapMSSV = new Scanner(new InputStreamReader(System.in));
             int mssv = Integer.parseInt(nhapMSSV.nextLine());
@@ -194,7 +199,7 @@ public class QuanLySinhVien {
             });
         }
         
-        if (luaChon.equals("2")) {
+        if (luaChonMonHoc.equals("2")) {
             System.out.print("Nhap MSSV: ");
             Scanner nhapMSSV = new Scanner(System.in);
             int mssv = Integer.parseInt(nhapMSSV.nextLine());
@@ -222,6 +227,44 @@ public class QuanLySinhVien {
                 if (danhSachLopMonHoc.get(i).MonHoc().MaMonHoc().equals(maMonHoc)) {
                     danhSachLopMonHoc.get(i).ThemSinhVien(themSinhVien);
                     danhSachLopMonHoc.get(i).Xuat();
+                }
+            }
+        }
+        
+        System.out.print("Nhap lua chon cua ban (1: Xem danh sach lop, 2: Xem danh sach lop theo mon hoc): ");
+        Scanner nhapLuaChonLop = new Scanner(System.in);
+        String luaChonLop = nhapLuaChonLop.nextLine();
+        
+        if (luaChonLop.equals("1")) {
+            System.out.print("Nhap ma lop ban muon xem danh sach: ");
+            Scanner nhapMaLop = new Scanner(new InputStreamReader(System.in));
+            String maLop = nhapMaLop.nextLine();
+            
+            for (int i = 0; i < danhSachLop.size(); i++) {
+                String layMaLop = danhSachLop.get(i).MaLop();
+                if (maLop.equals(layMaLop)) {
+                    danhSachLop.get(i).Xuat();
+                    break;
+                }
+            }
+        }
+        
+        if (luaChonLop.equals("2")) {
+            System.out.print("Nhap ma lop: ");
+            Scanner nhapMaLop = new Scanner(new InputStreamReader(System.in));
+            String maLop = nhapMaLop.nextLine();
+            
+            System.out.print("Nhap ma mon hoc tuong ung: ");
+            Scanner nhapMaMonHoc = new Scanner(new InputStreamReader(System.in));
+            String maMonHoc = nhapMaMonHoc.nextLine();
+            
+            for (int i = 0; i < danhSachLopMonHoc.size(); i++) {
+                String layMaLop = danhSachLopMonHoc.get(i).Lop();
+                String layMaMonHoc = danhSachLopMonHoc.get(i).MonHoc().MaMonHoc();
+                
+                if (maLop.equals(layMaLop) && maMonHoc.equals(layMaMonHoc)) {
+                    danhSachLopMonHoc.get(i).Xuat();
+                    break;
                 }
             }
         }
