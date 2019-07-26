@@ -12,16 +12,16 @@ import java.util.Scanner;
  * @author Nhan
  */
 public class SinhVien {
-    private int mssv;
-    private String hoTen;
+    protected int mssv;
+    protected String hoTen;
     private String gioiTinh;
     private String cmnd;
     
     public SinhVien() {
         this.mssv = -1;
-        this.hoTen = "";
-        this.gioiTinh = "";
-        this.cmnd = "";
+        this.hoTen = "h";
+        this.gioiTinh = "h";
+        this.cmnd = "h";
     }
     
     public SinhVien(int mssv, String hoTen, String gioiTinh, String cmnd) {
@@ -85,7 +85,6 @@ public class SinhVien {
     
     public void Xuat() {
         System.out.format("%10d %15s %10s %14s", this.mssv, this.hoTen, this.gioiTinh, this.cmnd);
-                
         System.out.println();
     }
 }

@@ -14,6 +14,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import models.BangDiem;
+import models.DiemSinhVien;
 import models.Lop;
 import models.LopMonHoc;
 import models.MonHoc;
@@ -36,7 +38,7 @@ public class QuanLySinhVien {
             String line;
             List<String> lines = new ArrayList<>();
 
-            listSinhVien = new ArrayList<SinhVien>();
+            listSinhVien = new ArrayList<>();
 
             while ((line = reader.readLine()) != null) {
                 lines.add(line);
@@ -65,7 +67,7 @@ public class QuanLySinhVien {
             String line;
             List<String> lines = new ArrayList<>();
 
-            listMonHoc = new ArrayList<MonHoc>();
+            listMonHoc = new ArrayList<>();
 
             while ((line = reader.readLine()) != null) {
                 lines.add(line);
@@ -82,6 +84,36 @@ public class QuanLySinhVien {
 
         return listMonHoc;
     }
+    
+        // Doc bang diem mon hoc tu file va dinh dang tuong ung
+    public static List<DiemSinhVien> DocDanhSachDiemSinhVien(String tenFile, String dinhDang) throws
+            UnsupportedEncodingException, FileNotFoundException, IOException {
+        List<DiemSinhVien> danhSachDiemSinhVien;
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+                new FileInputStream(tenFile), dinhDang))) {
+            String line;
+            List<String> lines = new ArrayList<>();
+
+            danhSachDiemSinhVien = new ArrayList<>();
+
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+            lines.forEach((element) -> {
+                String[] token = element.split(",");
+                DiemSinhVien diemSinhVien = new DiemSinhVien();
+                diemSinhVien.mssv(Integer.parseInt(token[1].replaceAll("\\uFEFF", "")));
+                diemSinhVien.hoTen(token[2]);
+                diemSinhVien.diemGiuaKy(Double.parseDouble(token[3].replaceAll("\\uFEFF", "")));
+                diemSinhVien.diemCuoiKy(Double.parseDouble(token[4].replaceAll("\\uFEFF", "")));
+                diemSinhVien.diemKhac(Double.parseDouble(token[5].replaceAll("\\uFEFF", "")));
+                diemSinhVien.diemTong(Double.parseDouble(token[6].replaceAll("\\uFEFF", "")));
+                danhSachDiemSinhVien.add(diemSinhVien);
+            });
+        }
+
+        return danhSachDiemSinhVien;
+    }
 
     /**
      * @param args the command line arguments
@@ -90,6 +122,7 @@ public class QuanLySinhVien {
         // TODO code application logic here
 
         List<SinhVien> listSinhVien = DocDanhSachLop("Data/Lop/17HCB.csv", "UTF-8");
+        List<DiemSinhVien> danhSachDiemSinhVien = DocDanhSachDiemSinhVien("Data/BangDiem/18HCB-CTT001.csv", "UTF-8");
         List<Lop> danhSachLop = new ArrayList<>();
         List<ThoiKhoaBieu> danhSachThoiKhoaBieu = new ArrayList<>();
         Lop lop = new Lop();
@@ -286,5 +319,14 @@ public class QuanLySinhVien {
                 break;
             }
         }
+        
+        DiemSinhVien diemSinhVien = new DiemSinhVien();
+        diemSinhVien.Xuat();
+                
+        BangDiem bangDiem = new BangDiem();
+        bangDiem.maLop("18HCB");
+        bangDiem.maMonHoc("CTT001");
+        bangDiem.danhSachDiemSinhVien(danhSachDiemSinhVien);
+        bangDiem.XuatBangDiem();
     }
 }
