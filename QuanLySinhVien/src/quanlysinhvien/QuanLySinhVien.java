@@ -328,5 +328,13 @@ public class QuanLySinhVien {
         bangDiem.maMonHoc("CTT001");
         bangDiem.danhSachDiemSinhVien(danhSachDiemSinhVien);
         bangDiem.XuatBangDiem();
+        
+        bangDiem.XetDau();
+        System.out.println("So luong sinh vien dau: " + bangDiem.SoLuongSinhVienDau());
+        bangDiem.XuatBangDiemDau();
+        bangDiem.XuatBangDiemRot();
+        
+        System.out.println("Ty le phan tram sinh vien dau: " + bangDiem.TyLeSinhVienDau() * 100 + "%");
+        System.out.println("Ty le phan tram sinh vien rot: " + bangDiem.TyLeSinhVienRot() * 100 + "%");
     }
 }

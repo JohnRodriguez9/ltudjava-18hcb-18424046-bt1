@@ -13,15 +13,17 @@ import java.util.List;
  * @author DELL
  */
 public class BangDiem {
-    String maLop;
-    String maMonHoc;
-    List<DiemSinhVien> danhSachDiemSinhVien;
+    private String maLop;
+    private String maMonHoc;
+    private List<DiemSinhVien> danhSachDiemSinhVien;
+    private int soLuongSinhVienDau;
     
     // constructor
     public BangDiem() {
         this.maLop = "";
         this.maMonHoc = "";
-        List<DiemSinhVien> danhSachDiemSinhVien = new ArrayList<>();
+        this.danhSachDiemSinhVien = new ArrayList<>();
+        this.soLuongSinhVienDau = 0;
     }
     
     // getter
@@ -37,6 +39,10 @@ public class BangDiem {
         return this.danhSachDiemSinhVien;
     }
     
+    public int SoLuongSinhVienDau() {
+        return this.soLuongSinhVienDau;
+    }
+    
     // setter
     public void maLop(String maLop) {
         this.maLop = maLop;
@@ -50,13 +56,66 @@ public class BangDiem {
         this.danhSachDiemSinhVien = danhSachDiemSinhVien;
     }
     
+    public void soLuongSinhVienDau(int soLuongSinhVienDau) {
+        this.soLuongSinhVienDau = soLuongSinhVienDau;
+    }
+    
     public void XuatBangDiem() {
         System.out.println("Bang diem cua lop: " + this.maLop + '-' + this.maMonHoc);
         
         System.out.printf("%10s %15s %8s %8s %8s %8s", "MSSV", "Ho ten", "Diem GK", "Diem CK", "Diem Khac", "Diem tong");
         System.out.println();
-        for(int i = 0; i < danhSachDiemSinhVien.size(); i++) {
-            danhSachDiemSinhVien.get(i).XuatDiem();
+        for(int i = 0; i < this.danhSachDiemSinhVien.size(); i++) {
+            this.danhSachDiemSinhVien.get(i).XuatDiem();
         }
     }
+    
+    public void XetDau() {
+        for(int i = 0; i < this.danhSachDiemSinhVien.size(); i++) {
+            if(this.danhSachDiemSinhVien.get(i).DiemTong() >= 5) {
+                this.danhSachDiemSinhVien.get(i).dau(true);
+                this.soLuongSinhVienDau++;
+            }
+        }
+    }
+    
+    public void XuatBangDiemDau() {
+        System.out.println("Danh sach dau");
+        
+        System.out.printf("%10s %15s %8s %8s %8s %8s", "MSSV", "Ho ten", "Diem GK", "Diem CK", "Diem Khac", "Diem tong");
+        System.out.println();
+        
+        for(int i = 0; i < this.danhSachDiemSinhVien.size(); i++) {
+            boolean ketQua = this.danhSachDiemSinhVien.get(i).Dau();
+            
+            if (ketQua) {
+                this.danhSachDiemSinhVien.get(i).XuatDiem();
+            }
+        }
+    }
+
+    public void XuatBangDiemRot() {
+        System.out.println("Danh sach dau");
+
+        System.out.printf("%10s %15s %8s %8s %8s %8s", "MSSV", "Ho ten", "Diem GK", "Diem CK", "Diem Khac", "Diem tong");
+        System.out.println();
+
+        for (int i = 0; i < this.danhSachDiemSinhVien.size(); i++) {
+            boolean ketQua = this.danhSachDiemSinhVien.get(i).Dau();
+
+            if (ketQua) {
+                this.danhSachDiemSinhVien.get(i).XuatDiem();
+            }
+        }
+    }
+    
+    public double TyLeSinhVienDau() {
+        int soLuongSinhVien = this.danhSachDiemSinhVien.size();
+        return ((double)this.soLuongSinhVienDau) / soLuongSinhVien;
+    }
+    
+    public double TyLeSinhVienRot() {
+        int soLuongSinhVien = this.danhSachDiemSinhVien.size();
+        return ((double)(soLuongSinhVien - this.soLuongSinhVienDau))/ soLuongSinhVien;
+    } 
 }
