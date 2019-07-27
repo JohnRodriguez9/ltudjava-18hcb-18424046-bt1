@@ -52,6 +52,7 @@ public class LopMonHoc {
         this.danhSachSinhVienMonHoc = danhSachSinhVienMonHoc;
     }
     
+    // method
     // Them mot sinh vien vao danh sach lop thuoc mon hoc tuong ung
     public void ThemSinhVien(SinhVien sv) {
         if (sv != null) { 

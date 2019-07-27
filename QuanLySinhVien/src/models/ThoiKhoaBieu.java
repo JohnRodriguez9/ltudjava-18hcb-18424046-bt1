@@ -36,6 +36,7 @@ public class ThoiKhoaBieu {
         this.lop = lop;
     }
     
+    // method
     public void danhSachMonHoc(List<MonHoc> danhSachMonHoc) {
         this.danhSachMonHoc = danhSachMonHoc;
     }

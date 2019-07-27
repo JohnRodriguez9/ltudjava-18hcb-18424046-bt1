@@ -39,6 +39,7 @@ public class Lop {
         this.danhSachSinhVien = danhSachSinhVien;
     }
     
+    // method
     public void Xuat() {
         System.out.println("Lop: " + this.maLop);
         

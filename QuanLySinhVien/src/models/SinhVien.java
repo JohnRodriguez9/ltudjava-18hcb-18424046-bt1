@@ -65,6 +65,7 @@ public class SinhVien {
         this.cmnd = cmnd;
     }
     
+    // method
     public void Nhap() {
         System.out.print("Nhap MSSV: ");
         Scanner nhapMSSV = new Scanner(System.in);

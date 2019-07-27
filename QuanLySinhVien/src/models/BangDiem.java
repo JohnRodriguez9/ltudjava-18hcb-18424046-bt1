@@ -60,6 +60,7 @@ public class BangDiem {
         this.soLuongSinhVienDau = soLuongSinhVienDau;
     }
     
+    // method
     public void XuatBangDiem() {
         System.out.println("Bang diem cua lop: " + this.maLop + '-' + this.maMonHoc);
         

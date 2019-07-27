@@ -69,6 +69,7 @@ public class DiemSinhVien extends SinhVien {
         this.dau = dau;
     }
     
+    // method
     public void NhapDiem() {
         System.out.print("Nhap diem giua ky: ");
         Scanner nhapDiemGiuaKy = new Scanner(System.in);

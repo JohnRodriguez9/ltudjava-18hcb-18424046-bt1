@@ -47,6 +47,7 @@ public class MonHoc {
         this.phongHoc = phongHoc;
     }
     
+    // method
     public void Xuat() {
         System.out.printf("%10s %25s %10s", this.maMonHoc, this.tenMonHoc, this.phongHoc);
         System.out.println();
