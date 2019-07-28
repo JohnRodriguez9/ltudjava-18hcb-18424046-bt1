@@ -117,6 +117,7 @@ public class QuanLySinhVien {
 
     /**
      * @param args the command line arguments
+     * @throws java.io.FileNotFoundException
      */
     public static void main(String[] args) throws FileNotFoundException, IOException {
         // TODO code application logic here
@@ -336,5 +337,9 @@ public class QuanLySinhVien {
         
         System.out.println("Ty le phan tram sinh vien dau: " + bangDiem.TyLeSinhVienDau() * 100 + "%");
         System.out.println("Ty le phan tram sinh vien rot: " + bangDiem.TyLeSinhVienRot() * 100 + "%");
+        
+        bangDiem.CapNhatDiemSinhVien(1842001);
+        bangDiem.XuatBangDiem();
+        
     }
 }

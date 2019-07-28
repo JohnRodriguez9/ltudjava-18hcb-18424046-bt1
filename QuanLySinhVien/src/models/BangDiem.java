@@ -5,8 +5,10 @@
  */
 package models;
 
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  *
@@ -17,6 +19,7 @@ public class BangDiem {
     private String maMonHoc;
     private List<DiemSinhVien> danhSachDiemSinhVien;
     private int soLuongSinhVienDau;
+    private int soLuongSinhVienRot;
     
     // constructor
     public BangDiem() {
@@ -24,6 +27,7 @@ public class BangDiem {
         this.maMonHoc = "";
         this.danhSachDiemSinhVien = new ArrayList<>();
         this.soLuongSinhVienDau = 0;
+        this.soLuongSinhVienRot = 0;
     }
     
     // getter
@@ -43,6 +47,10 @@ public class BangDiem {
         return this.soLuongSinhVienDau;
     }
     
+    public int SoLuongSinhVienRot() {
+        return this.soLuongSinhVienRot;
+    }
+    
     // setter
     public void maLop(String maLop) {
         this.maLop = maLop;
@@ -58,6 +66,10 @@ public class BangDiem {
     
     public void soLuongSinhVienDau(int soLuongSinhVienDau) {
         this.soLuongSinhVienDau = soLuongSinhVienDau;
+    }
+    
+    public void soLuongSinhVienRot(int soLuongSinhVienRot) {
+        this.soLuongSinhVienRot = soLuongSinhVienRot;
     }
     
     // method
@@ -76,6 +88,8 @@ public class BangDiem {
             if(this.danhSachDiemSinhVien.get(i).DiemTong() >= 5) {
                 this.danhSachDiemSinhVien.get(i).dau(true);
                 this.soLuongSinhVienDau++;
+            } else {
+                this.soLuongSinhVienRot++;
             }
         }
     }
@@ -117,6 +131,37 @@ public class BangDiem {
     
     public double TyLeSinhVienRot() {
         int soLuongSinhVien = this.danhSachDiemSinhVien.size();
-        return ((double)(soLuongSinhVien - this.soLuongSinhVienDau))/ soLuongSinhVien;
-    } 
+        return ((double)this.soLuongSinhVienRot)/ soLuongSinhVien;
+    }
+    
+    public void CapNhatDiemSinhVien(int mssv) {
+        for(int i = 0; i < this.danhSachDiemSinhVien.size(); i++) {
+            if(this.danhSachDiemSinhVien.get(i).MSSV() == mssv) {
+                System.out.println("Nhap thong tin diem ban muon chinh sua");
+                Scanner nhapDiemMoi = new Scanner(new InputStreamReader(System.in));
+                
+                System.out.print("Nhap diem giua ky: ");
+                double diemGiuaKyMoi = Double.parseDouble(nhapDiemMoi.nextLine());
+                
+                System.out.print("Nhap diem cuoi ky: ");
+                double diemCuoiKyMoi = Double.parseDouble(nhapDiemMoi.nextLine());
+                
+                System.out.print("Nhap diem khac: ");
+                double diemKhacMoi = Double.parseDouble(nhapDiemMoi.nextLine());
+                
+                System.out.print("Nhap diem tong: ");
+                double diemTongMoi = Double.parseDouble(nhapDiemMoi.nextLine());
+                
+                this.danhSachDiemSinhVien.get(i).diemGiuaKy(diemGiuaKyMoi);
+                this.danhSachDiemSinhVien.get(i).diemCuoiKy(diemCuoiKyMoi);
+                this.danhSachDiemSinhVien.get(i).diemKhac(diemKhacMoi);
+                this.danhSachDiemSinhVien.get(i).diemTong(diemTongMoi);
+                
+                return;
+            } else {
+                System.out.println("Sinh vien khong ton tai trong he thong");
+                return;
+            }
+        }
+    }
 }
