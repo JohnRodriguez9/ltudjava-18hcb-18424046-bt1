@@ -21,13 +21,14 @@ import models.LopMonHoc;
 import models.MonHoc;
 import models.SinhVien;
 import models.ThoiKhoaBieu;
+import view.GiaoVuView;
 
 /**
  *
  * @author DELL
  */
 public class QuanLySinhVien {
-    
+
     // Doc danh sach file tu dinh dang tuong ung
     public static List<SinhVien> DocDanhSachLop(String tenFile, String dinhDang) throws
             UnsupportedEncodingException, FileNotFoundException, IOException {
@@ -53,9 +54,12 @@ public class QuanLySinhVien {
 
                 listSinhVien.add(sv);
             });
-        }
 
-        return listSinhVien;
+            return listSinhVien;
+        } catch (Exception e) {
+            System.out.println("Vui long nhap dung ten lop");
+        }
+        return null;
     }
 
     // Doc danh sach mon hoc tu file va dinh dang tuong ung
@@ -84,8 +88,8 @@ public class QuanLySinhVien {
 
         return listMonHoc;
     }
-    
-        // Doc bang diem mon hoc tu file va dinh dang tuong ung
+
+    // Doc bang diem mon hoc tu file va dinh dang tuong ung
     public static List<DiemSinhVien> DocDanhSachDiemSinhVien(String tenFile, String dinhDang) throws
             UnsupportedEncodingException, FileNotFoundException, IOException {
         List<DiemSinhVien> danhSachDiemSinhVien;
@@ -115,6 +119,14 @@ public class QuanLySinhVien {
         return danhSachDiemSinhVien;
     }
 
+    public static void cls() {
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
     /**
      * @param args the command line arguments
      * @throws java.io.FileNotFoundException
@@ -122,7 +134,59 @@ public class QuanLySinhVien {
     public static void main(String[] args) throws FileNotFoundException, IOException {
         // TODO code application logic here
 
-        List<SinhVien> listSinhVien = DocDanhSachLop("Data/Lop/17HCB.csv", "UTF-8");
+        List<Lop> danhSachLop = new ArrayList<>();
+
+        while (true) {
+            System.out.println("Chuong trinh quan ly sinh vien");
+            GiaoVuView.ManHinhChinh();
+
+            System.out.print("Moi ban nhap lua chon: ");
+            Scanner nhapLuaChon = new Scanner(System.in);
+            String luaChon = nhapLuaChon.nextLine();
+
+            if (luaChon.equals("1")) {
+                // Them mot lop moi vao he thong
+                System.out.print("Nhap ma lop ban muon them vao he thong:");
+                Scanner nhapMaLop = new Scanner(System.in);
+                String maLop = nhapMaLop.nextLine();
+                maLop = maLop.toUpperCase();;
+                List<SinhVien> danhSachSinhVien = DocDanhSachLop("Data/Lop/" + maLop + ".csv", "UTF-8");
+
+                if (danhSachSinhVien != null) {
+                    if (danhSachLop.isEmpty()) {
+                        Lop lop = new Lop();
+                        lop.maLop(maLop);
+                        lop.danhSachSinhVien(danhSachSinhVien);
+                        lop.Xuat();
+                        danhSachLop.add(lop);
+                    } else {
+                        for (int i = 0; i < danhSachLop.size(); i++) {
+                            if (danhSachLop.get(i).MaLop().equals(maLop)) {
+                                GiaoVuView.ThongBaoLopDaTonTai();
+                                return;
+                            } else {
+                                Lop lop = new Lop();
+                                lop.maLop(maLop);
+                                lop.danhSachSinhVien(danhSachSinhVien);
+                                lop.Xuat();
+                                danhSachLop.add(lop);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (luaChon.equals("10")) {
+                System.out.println("Ban da thoat khoi man hinh giao vu");
+                break;
+            }
+
+            System.out.print("Nhap bat cu phim nao de tiep tuc chuong trinh");
+            nhapLuaChon.nextLine();
+        }
+
+        /*
         List<DiemSinhVien> danhSachDiemSinhVien = DocDanhSachDiemSinhVien("Data/BangDiem/18HCB-CTT001.csv", "UTF-8");
         List<Lop> danhSachLop = new ArrayList<>();
         List<ThoiKhoaBieu> danhSachThoiKhoaBieu = new ArrayList<>();
@@ -138,8 +202,8 @@ public class QuanLySinhVien {
         lop1.danhSachSinhVien(listSinhVien1);
         //lop1.Xuat();
         danhSachLop.add(lop1);
-
-        /*
+         */
+ /*
         System.out.print("Nhap lớp muốn thêm sinh viên: ");
         Scanner nhapLop = new Scanner(System.in);
         String lopHoc = nhapLop.nextLine();
@@ -152,14 +216,15 @@ public class QuanLySinhVien {
             lop.Xuat();
         }
          */
-        
+ /*
         List<LopMonHoc> danhSachLopMonHoc = new ArrayList<>();
-        
-        /*
+         */
+ /*
         System.out.print("Nhap lop muon them thoi khoa bieu: ");
         Scanner nhapLopThoiKhoaBieu = new Scanner(System.in);
         String lopHocThoiKhoaBieu = nhapLopThoiKhoaBieu.nextLine();
-        */
+         */
+ /*
         String lopHocThoiKhoaBieu = "17HCB";
         if (lopHocThoiKhoaBieu.equals("17HCB")) {
             List<MonHoc> listMonHoc = DocDanhSachMonHoc("Data/TKB/17HCB.csv", "UTF-8");
@@ -179,12 +244,13 @@ public class QuanLySinhVien {
             
             danhSachThoiKhoaBieu.add(thoiKhoaBieu);
         }
-
-        /*
+         */
+ /*
         System.out.print("Nhap lop muon them thoi khoa bieu: ");
         Scanner nhapLopThoiKhoaBieu1 = new Scanner(System.in);
         String lopHocThoiKhoaBieu1 = nhapLopThoiKhoaBieu1.nextLine();
-        */
+         */
+ /*
         String lopHocThoiKhoaBieu1 = "18HCB";
         if (lopHocThoiKhoaBieu1.equals("18HCB")) {
             List<MonHoc> listMonHoc1 = DocDanhSachMonHoc("Data/TKB/18HCB.csv", "UTF-8");
@@ -204,13 +270,13 @@ public class QuanLySinhVien {
             
             danhSachThoiKhoaBieu.add(thoiKhoaBieu1);
         }
-               
-        /*
+         */
+ /*
         danhSachLopMonHoc.forEach((lopMonHoc) -> {
             lopMonHoc.Xuat();
         });
-        */
-
+         */
+ /*
         System.out.print("Nhap lua chon cua ban(1: Chon khong hoc mon hoc, 2: Dang ky hoc cai thien): ");
         Scanner nhapLuaChonMonHoc = new Scanner(System.in);
         String luaChonMonHoc = nhapLuaChonMonHoc.nextLine();
@@ -340,6 +406,6 @@ public class QuanLySinhVien {
         
         bangDiem.CapNhatDiemSinhVien(1842001);
         bangDiem.XuatBangDiem();
-        
+         */
     }
 }
