@@ -135,6 +135,7 @@ public class QuanLySinhVien {
         // TODO code application logic here
 
         List<Lop> danhSachLop = new ArrayList<>();
+        List<LopMonHoc> danhSachLopMonHoc = new ArrayList<>();
 
         while (true) {
             System.out.println("Chuong trinh quan ly sinh vien");
@@ -176,8 +177,89 @@ public class QuanLySinhVien {
                     }
                 }
             }
+            
+            if (luaChon.equals("2")) {
+                System.out.print("Nhap lop ban muon xem danh sach: ");
+                Scanner nhapLop = new Scanner(System.in);
+                String lopHoc = nhapLop.nextLine();
+                
+                if (!danhSachLop.isEmpty()) {
+                    boolean tonTaiLop = false;
+                    for (int i = 0; i < danhSachLop.size(); i++) {
+                        if (danhSachLop.get(i).MaLop().equals(lopHoc)) {
+                            tonTaiLop = true;
+                            danhSachLop.get(i).Xuat();
+                            break;
+                        }
+                    }
+                    
+                    if (tonTaiLop == false) {
+                        GiaoVuView.ThongBaoLopKhongTonTai();
+                    }
+                } else {
+                    GiaoVuView.ThongBaoDSLopRong();
+                }
+            }
+            
+            if (luaChon.equals("3")) {
+                System.out.print("Nhap lop ban muon them sinh vien: ");
+                Scanner nhapLop = new Scanner(System.in);
+                String lopHoc = nhapLop.nextLine();
 
-            if (luaChon.equals("10")) {
+                if (!danhSachLop.isEmpty()) {
+                    boolean tonTaiLop = false;
+                    for (int i = 0; i < danhSachLop.size(); i++) {
+                        if (danhSachLop.get(i).MaLop().equals(lopHoc)) {
+                            tonTaiLop = true;
+                            SinhVien sinhVien = new SinhVien();
+                            if (danhSachLop.get(i).ThemSinhVien(sinhVien)) {
+                                GiaoVuView.ThongBaoThemSinhVienThanhCong();
+                            } else {
+                                GiaoVuView.ThongBaoSinhVienDaTonTai();
+                            }
+                            break;
+                        }
+                    }
+                    
+                    if (tonTaiLop == false) {
+                        GiaoVuView.ThongBaoLopKhongTonTai();
+                    }
+                } else {
+                    GiaoVuView.ThongBaoDSLopRong();
+                }
+            }
+            
+            
+            if (luaChon.equals("4")) {
+                System.out.print("Nhap lop muon them thoi khoa bieu: ");
+                Scanner nhapLopThoiKhoaBieu = new Scanner(System.in);
+                String lopHocThoiKhoaBieu = nhapLopThoiKhoaBieu.nextLine();
+                
+                if (!danhSachLop.isEmpty()) {
+                    boolean tonTaiLop = false;
+                    for (int i = 0; i < danhSachLop.size(); i++) {
+                        if (danhSachLop.get(i).MaLop().equals(lopHocThoiKhoaBieu)) {
+                            tonTaiLop = true;
+                            SinhVien sinhVien = new SinhVien();
+                            if (danhSachLop.get(i).ThemSinhVien(sinhVien)) {
+                                GiaoVuView.ThongBaoThemSinhVienThanhCong();
+                                danhSachLop.get(i).Xuat();
+                            } else {
+                                GiaoVuView.ThongBaoSinhVienDaTonTai();
+                            }
+                            break;
+                        }
+                    }
+                    
+                    if (tonTaiLop == false) {
+                        GiaoVuView.ThongBaoLopKhongTonTai();
+                    }
+                } else {
+                    GiaoVuView.ThongBaoDSLopRong();
+                }
+            }
+
+            if (luaChon.equals("0")) {
                 System.out.println("Ban da thoat khoi man hinh giao vu");
                 break;
             }

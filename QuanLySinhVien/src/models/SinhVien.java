@@ -19,9 +19,9 @@ public class SinhVien {
     
     public SinhVien() {
         this.mssv = -1;
-        this.hoTen = "h";
-        this.gioiTinh = "h";
-        this.cmnd = "h";
+        this.hoTen = "";
+        this.gioiTinh = "";
+        this.cmnd = "";
     }
     
     public SinhVien(int mssv, String hoTen, String gioiTinh, String cmnd) {
@@ -67,21 +67,18 @@ public class SinhVien {
     
     // method
     public void Nhap() {
+        Scanner nhapSV = new Scanner(System.in);
         System.out.print("Nhap MSSV: ");
-        Scanner nhapMSSV = new Scanner(System.in);
-        this.mssv = Integer.parseInt(nhapMSSV.nextLine());
+        this.mssv = Integer.parseInt(nhapSV.nextLine());
         
         System.out.print("Nhap ho va ten: ");
-        Scanner nhapHoTen = new Scanner(System.in);
-        this.hoTen = nhapHoTen.nextLine();
+        this.hoTen = nhapSV.nextLine();
         
-        System.out.print("Nhập gioi tinh: " + this.gioiTinh);
-        Scanner nhapGioiTinh = new Scanner(System.in);
-        this.gioiTinh = nhapGioiTinh.nextLine();
+        System.out.print("Nhập gioi tinh: ");
+        this.gioiTinh = nhapSV.nextLine();
         
-        System.out.print("Nhap CMND: " + this.cmnd);
-        Scanner nhapCMND = new Scanner(System.in);
-        this.cmnd = nhapCMND.nextLine();
+        System.out.print("Nhap CMND: ");
+        this.cmnd = nhapSV.nextLine();
     }
     
     public void Xuat() {

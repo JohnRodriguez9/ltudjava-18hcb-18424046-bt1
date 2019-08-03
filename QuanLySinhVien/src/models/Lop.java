@@ -51,11 +51,30 @@ public class Lop {
         System.out.println();
     }
     
-    public void ThemSinhVien(SinhVien sv) {
+    public boolean ThemSinhVien(SinhVien sv) {
+        boolean ketQua = false;
         if (sv != null) { 
             sv.Nhap();
-            this.danhSachSinhVien.add(sv);
+            if (!this.KiemTraTonTaiSinhVien(sv.MSSV())) {
+                ketQua = true;
+                this.danhSachSinhVien.add(sv);
+            }
         }
+        return ketQua;
+    }
+    
+    // Kiem tra xem sinh vien co ton tai trong danh sach lop
+    public boolean KiemTraTonTaiSinhVien(int mssv) {
+        boolean kiemTraTonTai = false;
+        
+        for (int i = 0; i < this.danhSachSinhVien.size(); i++) {
+            if (this.danhSachSinhVien.get(i).MSSV() == mssv) {
+                kiemTraTonTai = true;
+                break;
+            }
+        }
+        
+        return kiemTraTonTai;
     }
     
     // Tim kiem sinh vien theo mssv tuong ung
