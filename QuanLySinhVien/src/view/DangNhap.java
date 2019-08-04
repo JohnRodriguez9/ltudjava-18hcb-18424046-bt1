@@ -10,5 +10,7 @@ package view;
  * @author DELL
  */
 public class DangNhap {
-    
+    public static void ManHinhDangNhap() {
+        
+    }
 }

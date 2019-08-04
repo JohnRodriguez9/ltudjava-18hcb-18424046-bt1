@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import view.GiaoVuView;
 
 /**
  *
@@ -118,7 +119,7 @@ public class BangDiem {
         for (int i = 0; i < this.danhSachDiemSinhVien.size(); i++) {
             boolean ketQua = this.danhSachDiemSinhVien.get(i).Dau();
 
-            if (ketQua) {
+            if (!ketQua) {
                 this.danhSachDiemSinhVien.get(i).XuatDiem();
             }
         }
@@ -156,7 +157,7 @@ public class BangDiem {
                 this.danhSachDiemSinhVien.get(i).diemCuoiKy(diemCuoiKyMoi);
                 this.danhSachDiemSinhVien.get(i).diemKhac(diemKhacMoi);
                 this.danhSachDiemSinhVien.get(i).diemTong(diemTongMoi);
-                
+                GiaoVuView.ThongBaoCapNhatDiemSinhVienThanhCong();
                 return;
             } else {
                 System.out.println("Sinh vien khong ton tai trong he thong");

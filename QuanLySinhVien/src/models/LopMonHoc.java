@@ -77,7 +77,7 @@ public class LopMonHoc {
     
     public void Xuat() {
         System.out.println("Lop: " + this.lop + '-' + this.MonHoc().MaMonHoc());
-        
+        System.out.println("Mon hoc: " + this.MonHoc().TenMonHoc());
         System.out.printf("%10s %15s %10s %12s", "MSSV", "Ho ten", "Gioi Tinh", "CMND");
         System.out.println();
         this.danhSachSinhVienMonHoc.forEach((sinhVien) -> {
