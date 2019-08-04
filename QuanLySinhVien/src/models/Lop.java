@@ -10,7 +10,6 @@ import java.util.List;
 
 /**
  *
- * @author Nhan
  */
 public class Lop {
     private String maLop;
@@ -91,5 +90,39 @@ public class Lop {
         });
         
         return sv;
+    }
+    
+    // Tim tai khoan sinh vien
+    public boolean TimTaiKhoan(String tenDangNhap, String matKhau) {
+        boolean ketQua = false;
+        for (int sinhVien = 0; sinhVien < this.danhSachSinhVien.size(); sinhVien++) {
+            if (this.danhSachSinhVien.get(sinhVien).TenDangNhap().equals(tenDangNhap)
+                    && this.danhSachSinhVien.get(sinhVien).MatKhau().equals(matKhau)) {
+                ketQua = true;
+                break;
+            }
+        }
+        
+        return ketQua;
+    }
+    
+    public String GetMatKhauSinhVien(String tenDangNhap) {
+        String matKhau = "";
+        for (int sinhVien = 0; sinhVien < this.danhSachSinhVien.size(); sinhVien++) {
+            if (this.danhSachSinhVien.get(sinhVien).TenDangNhap().equals(tenDangNhap)) {
+                matKhau = this.danhSachSinhVien.get(sinhVien).MatKhau();
+            }
+        }
+        
+        return matKhau;
+    }
+    
+    public void SetMatKhauSinhVien(String tenDangNhap, String matKhau) {
+        for (int sinhVien = 0; sinhVien < this.danhSachSinhVien.size(); sinhVien++) {
+            if (this.danhSachSinhVien.get(sinhVien).TenDangNhap().equals(tenDangNhap)) {
+                this.danhSachSinhVien.get(sinhVien).matKhau(matKhau);
+                return;
+            }
+        }
     }
 }

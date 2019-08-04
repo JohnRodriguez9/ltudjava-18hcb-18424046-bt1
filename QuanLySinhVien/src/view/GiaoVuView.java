@@ -7,7 +7,6 @@ package view;
 
 /**
  *
- * @author DELL
  */
 public class GiaoVuView {
     // Man hinh chinh
@@ -27,6 +26,7 @@ public class GiaoVuView {
         System.out.println("7. Them bang diem tu file csv vao he thong");
         System.out.println("8. Xem lai bang diem, thong ke");
         System.out.println("9. Cap nhat diem cua mot sinh vien");
+        System.out.println("10. Doi mat khau");
         System.out.println("0. Thoat chuong trinh");
         for(int i = 0; i < 50; i++) {
             System.out.print("-");
@@ -44,8 +44,16 @@ public class GiaoVuView {
         System.out.println("Lop ban vua nhap khong ton tai trong he thong!");
     }
     
+    public static void ThongBaoThemLopThanhCong() {
+        System.out.println("Them lop thanh cong");
+    }
+    
     public static void ThongBaoLopDaTonTai() {
         System.out.println("Lop hoc da ton tai trong he thong !");
+    }
+    
+    public static void ThongBaoThemThoiKhoaBieuThanhCong() {
+        System.out.println("Them thoi khoa bieu thanh cong");
     }
     
     public static void ThongBaoThemSinhVienThanhCong() {

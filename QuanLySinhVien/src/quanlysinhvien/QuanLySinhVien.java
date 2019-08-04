@@ -21,11 +21,12 @@ import models.LopMonHoc;
 import models.MonHoc;
 import models.SinhVien;
 import models.ThoiKhoaBieu;
+import view.DangNhapView;
 import view.GiaoVuView;
+import view.SinhVienView;
 
 /**
  *
- * @author DELL
  */
 public class QuanLySinhVien {
 
@@ -55,6 +56,8 @@ public class QuanLySinhVien {
                 sv.hoTen(token[2]);
                 sv.gioiTinh(token[3]);
                 sv.cmnd(token[4]);
+                sv.tenDangNhap(token[1]);
+                sv.matKhau(token[1]);
 
                 listSinhVien.add(sv);
             });
@@ -153,315 +156,432 @@ public class QuanLySinhVien {
         String matKhauGiaoVu = "giaovu";
 
         while (true) {
-            System.out.println("Chuong trinh quan ly sinh vien");
-            Scanner dangNhap = new Scanner(System.in);
-            System.out.print("Ten dang nhap: ");
-            String tenDangNhap = dangNhap.nextLine();
-            System.out.print("Mat khau: ");
-            String matKhau = dangNhap.nextLine();
+            DangNhapView.ManHinhChinh();
+            Scanner nhapLuaChon = new Scanner(System.in);
+            System.out.print("Moi ban nhap lua chon: ");
+            String luaChon = nhapLuaChon.nextLine();
 
-            if (tenDangNhap.equals(tenDangNhapGiaoVu) && matKhau.equals(matKhauGiaoVu)) {
+            if (luaChon.equals("1")) {
                 while (true) {
                     System.out.println("Chuong trinh quan ly sinh vien");
-                    GiaoVuView.ManHinhChinh();
+                    Scanner dangNhap = new Scanner(System.in);
+                    System.out.print("Ten dang nhap: ");
+                    String tenDangNhap = dangNhap.nextLine();
+                    System.out.print("Mat khau: ");
+                    String matKhau = dangNhap.nextLine();
 
-                    System.out.print("Moi ban nhap lua chon: ");
-                    Scanner nhapLuaChon = new Scanner(System.in);
-                    String luaChon = nhapLuaChon.nextLine();
+                    if (tenDangNhap.equals(tenDangNhapGiaoVu) && matKhau.equals(matKhauGiaoVu)) {
+                        while (true) {
+                            GiaoVuView.ManHinhChinh();
+                            String luaChonChucNang = nhapLuaChon.nextLine();
 
-                    // 1. Them mot lop vao he thong
-                    if (luaChon.equals("1")) {
-                        // Them mot lop moi vao he thong
-                        System.out.print("Nhap ma lop ban muon them vao he thong:");
-                        Scanner nhapMaLop = new Scanner(System.in);
-                        String maLop = nhapMaLop.nextLine();
-                        maLop = maLop.toUpperCase();
-                        List<SinhVien> danhSachSinhVien = DocDanhSachLop(pathLop + maLop + ".csv", "UTF-8");
+                            // 1. Them mot lop vao he thong
+                            if (luaChonChucNang.equals("1")) {
+                                // Them mot lop moi vao he thong
+                                System.out.print("Nhap ma lop ban muon them vao he thong:");
+                                Scanner nhapMaLop = new Scanner(System.in);
+                                String maLop = nhapMaLop.nextLine();
+                                maLop = maLop.toUpperCase();
+                                List<SinhVien> danhSachSinhVien = DocDanhSachLop(pathLop + maLop + ".csv", "UTF-8");
 
-                        if (danhSachSinhVien != null) {
-                            if (danhSachLop.isEmpty()) {
-                                Lop lop = new Lop();
-                                lop.maLop(maLop);
-                                lop.danhSachSinhVien(danhSachSinhVien);
-                                lop.Xuat();
-                                danhSachLop.add(lop);
-                            } else {
-                                for (int i = 0; i < danhSachLop.size(); i++) {
-                                    if (danhSachLop.get(i).MaLop().equals(maLop)) {
-                                        GiaoVuView.ThongBaoLopDaTonTai();
-                                        return;
-                                    } else {
+                                if (danhSachSinhVien != null) {
+                                    if (danhSachLop.isEmpty()) {
                                         Lop lop = new Lop();
                                         lop.maLop(maLop);
                                         lop.danhSachSinhVien(danhSachSinhVien);
-                                        lop.Xuat();
+                                        GiaoVuView.ThongBaoThemLopThanhCong();
                                         danhSachLop.add(lop);
+                                    } else {
+                                        for (int i = 0; i < danhSachLop.size(); i++) {
+                                            if (danhSachLop.get(i).MaLop().equals(maLop)) {
+                                                GiaoVuView.ThongBaoLopDaTonTai();
+                                                return;
+                                            } else {
+                                                Lop lop = new Lop();
+                                                lop.maLop(maLop);
+                                                lop.danhSachSinhVien(danhSachSinhVien);
+                                                GiaoVuView.ThongBaoThemLopThanhCong();
+                                                danhSachLop.add(lop);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            // 2. Them moi mot sinh vien vao mot lop
+                            if (luaChonChucNang.equals("2")) {
+                                System.out.print("Nhap lop ban muon them sinh vien: ");
+                                Scanner nhapLop = new Scanner(System.in);
+                                String lopHoc = nhapLop.nextLine();
+
+                                if (!danhSachLop.isEmpty()) {
+                                    boolean tonTaiLop = false;
+                                    for (int i = 0; i < danhSachLop.size(); i++) {
+                                        if (danhSachLop.get(i).MaLop().equals(lopHoc)) {
+                                            tonTaiLop = true;
+                                            SinhVien sinhVien = new SinhVien();
+                                            if (danhSachLop.get(i).ThemSinhVien(sinhVien)) {
+                                                GiaoVuView.ThongBaoThemSinhVienThanhCong();
+                                            } else {
+                                                GiaoVuView.ThongBaoSinhVienDaTonTai();
+                                            }
+                                            break;
+                                        }
+                                    }
+
+                                    if (tonTaiLop == false) {
+                                        GiaoVuView.ThongBaoLopKhongTonTai();
+                                    }
+                                } else {
+                                    GiaoVuView.ThongBaoDSLopRong();
+                                }
+                            }
+
+                            // 3. Them thoi khoa bieu vao he thong
+                            if (luaChonChucNang.equals("3")) {
+                                System.out.print("Nhap lop muon them thoi khoa bieu: ");
+                                Scanner nhapLopThoiKhoaBieu = new Scanner(System.in);
+                                String lopHoc = nhapLopThoiKhoaBieu.nextLine();
+
+                                if (!danhSachLop.isEmpty()) {
+                                    boolean tonTaiLop = false;
+
+                                    for (int lop = 0; lop < danhSachLop.size(); lop++) {
+                                        tonTaiLop = true;
+                                        if (danhSachLop.get(lop).MaLop().equals(lopHoc)) {
+                                            List<MonHoc> danhSachMonHoc = DocDanhSachMonHoc(pathTKB + lopHoc + ".csv", "UTF-8");
+                                            ThoiKhoaBieu thoiKhoaBieu = new ThoiKhoaBieu();
+                                            thoiKhoaBieu.lop(danhSachLop.get(lop));
+                                            thoiKhoaBieu.danhSachMonHoc(danhSachMonHoc);
+                                            GiaoVuView.ThongBaoThemThoiKhoaBieuThanhCong();
+
+                                            for (int monHoc = 0; monHoc < thoiKhoaBieu.DanhSachMonHoc().size(); monHoc++) {
+                                                LopMonHoc lopMonHoc = new LopMonHoc();
+                                                lopMonHoc.lop(lopHoc);
+                                                lopMonHoc.monHoc(thoiKhoaBieu.DanhSachMonHoc().get(monHoc));
+                                                lopMonHoc.DanhSachSinHVienMonHoc(danhSachLop.get(lop).DanhSachSinhVien());
+
+                                                danhSachLopMonHoc.add(lopMonHoc);
+                                            }
+                                            danhSachThoiKhoaBieu.add(thoiKhoaBieu);
+                                            break;
+                                        }
+                                    }
+
+                                    if (tonTaiLop == false) {
+                                        GiaoVuView.ThongBaoLopKhongTonTai();
+                                    }
+                                } else {
+                                    GiaoVuView.ThongBaoDSLopRong();
+                                }
+                            }
+
+                            // 4. Huy mon, dang ky hoc cai thien
+                            if (luaChonChucNang.equals("4")) {
+                                System.out.print("Nhap lua chon cua ban(1: Chon khong hoc mon hoc, 2: Dang ky hoc cai thien): ");
+                                Scanner nhapLuaChonMonHoc = new Scanner(System.in);
+                                String luaChonMonHoc = nhapLuaChonMonHoc.nextLine();
+
+                                // 1. Huy mon
+                                if (luaChonMonHoc.equals("1")) {
+                                    System.out.print("Nhap MSSV: ");
+                                    Scanner nhapMSSV = new Scanner(new InputStreamReader(System.in));
+                                    int mssv = Integer.parseInt(nhapMSSV.nextLine());
+
+                                    System.out.print("Nhap ma lop: ");
+                                    Scanner nhapMaLop = new Scanner(new InputStreamReader(System.in));
+                                    String maLop = nhapMaLop.nextLine();
+
+                                    System.out.print("Nhap ma mon hoc ban khong muon hoc trong hoc ky nay: ");
+                                    Scanner nhapMaMonHoc = new Scanner(new InputStreamReader(System.in));
+                                    String maMonHoc = nhapMaMonHoc.nextLine();
+
+                                    danhSachLopMonHoc.forEach((lopMonHoc) -> {
+                                        if (lopMonHoc.Lop().equals(maLop)
+                                                && lopMonHoc.MonHoc().MaMonHoc().equals(maMonHoc)) {
+                                            lopMonHoc.XoaSinhVien(maLop, maMonHoc, mssv);
+                                            lopMonHoc.Xuat();
+                                        }
+                                    });
+                                }
+
+                                // 2. Dang ky hoc cai thien
+                                if (luaChonMonHoc.equals("2")) {
+                                    System.out.print("Nhap MSSV: ");
+                                    Scanner nhapMSSV = new Scanner(System.in);
+                                    int mssv = Integer.parseInt(nhapMSSV.nextLine());
+
+                                    SinhVien themSinhVien = new SinhVien();
+
+                                    System.out.print("Nhap ma lop cua sinh vien ban vua nhap: ");
+                                    Scanner nhapMaLop = new Scanner(System.in);
+                                    String maLop = nhapMaLop.nextLine();
+
+                                    if (!danhSachLop.isEmpty()) {
+                                        for (int lop = 0; lop < danhSachLop.size(); lop++) {
+                                            if (maLop.equals(danhSachLop)) {
+                                                themSinhVien = danhSachLop.get(lop).TimSinhVien(mssv);
+                                            }
+                                        }
+                                    } else {
+                                        GiaoVuView.ThongBaoDSLopRong();
+                                    }
+
+                                    System.out.print("Nhap ma mon hoc ban muon hoc cai thien trong hoc ky nay: ");
+                                    Scanner nhapMaMonHoc = new Scanner(System.in);
+                                    String maMonHoc = nhapMaMonHoc.nextLine();
+
+                                    for (int i = 0; i < danhSachLopMonHoc.size(); i++) {
+                                        if (danhSachLopMonHoc.get(i).MonHoc().MaMonHoc().equals(maMonHoc)) {
+                                            danhSachLopMonHoc.get(i).ThemSinhVien(themSinhVien);
+                                            danhSachLopMonHoc.get(i).Xuat();
+                                        }
+                                    }
+                                }
+                            }
+
+                            // 5. Xem lai danh sach lop
+                            if (luaChonChucNang.equals("5")) {
+                                System.out.print("Nhap lua chon cua ban (1: Xem danh sach lop, 2: Xem danh sach lop theo mon hoc): ");
+                                Scanner nhapLuaChonLop = new Scanner(System.in);
+                                String luaChonLop = nhapLuaChonLop.nextLine();
+
+                                if (luaChonLop.equals("1")) {
+                                    System.out.print("Nhap ma lop ban muon xem danh sach: ");
+                                    Scanner nhapMaLop = new Scanner(new InputStreamReader(System.in));
+                                    String maLop = nhapMaLop.nextLine();
+
+                                    for (int i = 0; i < danhSachLop.size(); i++) {
+                                        String layMaLop = danhSachLop.get(i).MaLop();
+                                        if (maLop.equals(layMaLop)) {
+                                            danhSachLop.get(i).Xuat();
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                if (luaChonLop.equals("2")) {
+                                    System.out.print("Nhap ma lop: ");
+                                    Scanner nhapMaLop = new Scanner(new InputStreamReader(System.in));
+                                    String maLop = nhapMaLop.nextLine();
+
+                                    System.out.print("Nhap ma mon hoc tuong ung: ");
+                                    Scanner nhapMaMonHoc = new Scanner(new InputStreamReader(System.in));
+                                    String maMonHoc = nhapMaMonHoc.nextLine();
+
+                                    for (int i = 0; i < danhSachLopMonHoc.size(); i++) {
+                                        String layMaLop = danhSachLopMonHoc.get(i).Lop();
+                                        String layMaMonHoc = danhSachLopMonHoc.get(i).MonHoc().MaMonHoc();
+
+                                        if (maLop.equals(layMaLop) && maMonHoc.equals(layMaMonHoc)) {
+                                            danhSachLopMonHoc.get(i).Xuat();
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+
+                            // 6. Xem lai thoi khoa bieu
+                            if (luaChonChucNang.equals("6")) {
+                                System.out.print("Nhap lop ban muon xem thoi khoa bieu: ");
+                                Scanner nhapXemThoiKhoaBieu = new Scanner(new InputStreamReader(System.in));
+                                String xemThoiKhoaBieuLop = nhapXemThoiKhoaBieu.nextLine();
+
+                                for (int tkb = 0; tkb < danhSachThoiKhoaBieu.size(); tkb++) {
+                                    String layMaLop = danhSachThoiKhoaBieu.get(tkb).Lop().MaLop();
+                                    System.out.println(layMaLop);
+                                    if (xemThoiKhoaBieuLop.equals(layMaLop)) {
+                                        danhSachThoiKhoaBieu.get(tkb).Xuat();
                                         break;
                                     }
                                 }
                             }
-                        }
-                    }
 
-                    // 2. Them moi mot sinh vien vao mot lop
-                    if (luaChon.equals("2")) {
-                        System.out.print("Nhap lop ban muon them sinh vien: ");
-                        Scanner nhapLop = new Scanner(System.in);
-                        String lopHoc = nhapLop.nextLine();
+                            // 7. Them bang diem tu file csv vao he thong
+                            if (luaChonChucNang.equals("7")) {
+                                Scanner nhapBangDiem = new Scanner(new InputStreamReader(System.in));
+                                System.out.print("Nhap lop ban muon them bang diem: ");
+                                String maLop = nhapBangDiem.nextLine();
+                                System.out.print("Nhap ma mon hoc ban muon them bang diem: ");
+                                String maMonHoc = nhapBangDiem.nextLine();
 
-                        if (!danhSachLop.isEmpty()) {
-                            boolean tonTaiLop = false;
-                            for (int i = 0; i < danhSachLop.size(); i++) {
-                                if (danhSachLop.get(i).MaLop().equals(lopHoc)) {
-                                    tonTaiLop = true;
-                                    SinhVien sinhVien = new SinhVien();
-                                    if (danhSachLop.get(i).ThemSinhVien(sinhVien)) {
-                                        GiaoVuView.ThongBaoThemSinhVienThanhCong();
+                                List<DiemSinhVien> danhSachDiemSinhVien = DocDanhSachDiemSinhVien(pathBangDiem + maLop + "-" + maMonHoc + ".csv", "UTF-8");
+
+                                BangDiem bangDiem = new BangDiem();
+                                bangDiem.maLop(maLop);
+                                bangDiem.maMonHoc(maMonHoc);
+                                bangDiem.danhSachDiemSinhVien(danhSachDiemSinhVien);
+                                danhSachBangDiem.add(bangDiem);
+                                GiaoVuView.ThongBaoThemBangDiemThanhCong();
+                            }
+
+                            // 8. Xem lai ban diem va thong ke
+                            if (luaChonChucNang.equals("8")) {
+                                Scanner nhapBangDiem = new Scanner(new InputStreamReader(System.in));
+                                System.out.print("Nhap lop ban muon xem bang diem: ");
+                                String tenLop = nhapBangDiem.nextLine();
+                                System.out.print("Nhap ma mon hoc ban muon xem bang diem: ");
+                                String maMonHoc = nhapBangDiem.nextLine();
+
+                                for (int bangDiem = 0; bangDiem < danhSachBangDiem.size(); bangDiem++) {
+                                    if (danhSachBangDiem.get(bangDiem).MaLop().equals(tenLop)
+                                            && danhSachBangDiem.get(bangDiem).MaMonHoc().equals(maMonHoc)) {
+                                        danhSachBangDiem.get(bangDiem).XetDau();
+
+                                        System.out.println("So luong sinh vien dau: " + danhSachBangDiem.get(bangDiem).SoLuongSinhVienDau());
+                                        danhSachBangDiem.get(bangDiem).XuatBangDiemDau();
+                                        danhSachBangDiem.get(bangDiem).XuatBangDiemRot();
+
+                                        System.out.println("Ty le phan tram sinh vien dau: " + danhSachBangDiem.get(bangDiem).TyLeSinhVienDau() * 100 + "%");
+                                        System.out.println("Ty le phan tram sinh vien rot: " + danhSachBangDiem.get(bangDiem).TyLeSinhVienRot() * 100 + "%");
+                                    }
+                                }
+
+                            }
+
+                            // 9. Cap nhat diem cua mot sinh vien
+                            if (luaChonChucNang.equals("9")) {
+                                Scanner nhapBangDiem = new Scanner(new InputStreamReader(System.in));
+                                System.out.print("Nhap lop ban muon cap nhat bang diem: ");
+                                String tenLop = nhapBangDiem.nextLine();
+                                System.out.print("Nhap ma mon hoc ban muon cap nhat bang diem: ");
+                                String maMonHoc = nhapBangDiem.nextLine();
+
+                                for (int bangDiem = 0; bangDiem < danhSachBangDiem.size(); bangDiem++) {
+                                    if (danhSachBangDiem.get(bangDiem).MaLop().equals(tenLop)
+                                            && danhSachBangDiem.get(bangDiem).MaMonHoc().equals(maMonHoc)) {
+                                        System.out.print("Nhap ma so sinh vien ban muon cap nhat diem: ");
+                                        int mssv = Integer.parseInt(nhapBangDiem.nextLine());
+                                        danhSachBangDiem.get(bangDiem).CapNhatDiemSinhVien(mssv);
+                                    }
+                                }
+                            }
+
+                            // 10. Doi mat khau
+                            if (luaChonChucNang.equals("10")) {
+                                Scanner doiMatKhau = new Scanner(System.in);
+
+                                System.out.println("Nhap mat khau hien tai: ");
+                                String matKhauHienTai = doiMatKhau.nextLine();
+                                if (matKhauGiaoVu.equals(matKhauHienTai)) {
+                                    System.out.println("Nhap mat khau moi: ");
+                                    String matKhauMoi = doiMatKhau.nextLine();
+                                    System.out.println("Nhap lai mat khau moi: ");
+                                    String xacNhanMatKhauMoi = doiMatKhau.nextLine();
+
+                                    if (matKhauMoi.equals(xacNhanMatKhauMoi)) {
+                                        matKhauGiaoVu = matKhauMoi;
+                                        DangNhapView.ThongBaoDoiMatKhauThanhCong();
                                     } else {
-                                        GiaoVuView.ThongBaoSinhVienDaTonTai();
+                                        DangNhapView.ThongBaoXacNhanMatKhauKhongDung();
+                                        DangNhapView.ThongBaoDoiMatKhauThatBai();
+                                        break;
                                     }
-                                    break;
+
+                                } else {
+                                    DangNhapView.ThongBaoMatKhauHienTaiKhongDung();
+                                    DangNhapView.ThongBaoDoiMatKhauThatBai();
                                 }
                             }
 
-                            if (tonTaiLop == false) {
-                                GiaoVuView.ThongBaoLopKhongTonTai();
-                            }
-                        } else {
-                            GiaoVuView.ThongBaoDSLopRong();
-                        }
-                    }
-
-                    // 3. Them thoi khoa bieu vao he thong
-                    if (luaChon.equals("3")) {
-                        System.out.print("Nhap lop muon them thoi khoa bieu: ");
-                        Scanner nhapLopThoiKhoaBieu = new Scanner(System.in);
-                        String lopHoc = nhapLopThoiKhoaBieu.nextLine();
-
-                        if (!danhSachLop.isEmpty()) {
-                            boolean tonTaiLop = false;
-
-                            for (int lop = 0; lop < danhSachLop.size(); lop++) {
-                                tonTaiLop = true;
-                                if (danhSachLop.get(lop).MaLop().equals(lopHoc)) {
-                                    List<MonHoc> danhSachMonHoc = DocDanhSachMonHoc(pathTKB + lopHoc + ".csv", "UTF-8");
-                                    ThoiKhoaBieu thoiKhoaBieu = new ThoiKhoaBieu();
-                                    thoiKhoaBieu.lop(danhSachLop.get(lop));
-                                    thoiKhoaBieu.danhSachMonHoc(danhSachMonHoc);
-                                    thoiKhoaBieu.Xuat();
-
-                                    for (int monHoc = 0; monHoc < thoiKhoaBieu.DanhSachMonHoc().size(); monHoc++) {
-                                        LopMonHoc lopMonHoc = new LopMonHoc();
-                                        lopMonHoc.lop(lopHoc);
-                                        lopMonHoc.monHoc(thoiKhoaBieu.DanhSachMonHoc().get(monHoc));
-                                        lopMonHoc.DanhSachSinHVienMonHoc(danhSachLop.get(lop).DanhSachSinhVien());
-
-                                        danhSachLopMonHoc.add(lopMonHoc);
-                                    }
-                                    danhSachThoiKhoaBieu.add(thoiKhoaBieu);
-                                    break;
-                                }
-                            }
-
-                            if (tonTaiLop == false) {
-                                GiaoVuView.ThongBaoLopKhongTonTai();
-                            }
-                        } else {
-                            GiaoVuView.ThongBaoDSLopRong();
-                        }
-                    }
-
-                    // 4. Huy mon, dang ky hoc cai thien
-                    if (luaChon.equals("4")) {
-                        System.out.print("Nhap lua chon cua ban(1: Chon khong hoc mon hoc, 2: Dang ky hoc cai thien): ");
-                        Scanner nhapLuaChonMonHoc = new Scanner(System.in);
-                        String luaChonMonHoc = nhapLuaChonMonHoc.nextLine();
-
-                        // 1. Huy mon
-                        if (luaChonMonHoc.equals("1")) {
-                            System.out.print("Nhap MSSV: ");
-                            Scanner nhapMSSV = new Scanner(new InputStreamReader(System.in));
-                            int mssv = Integer.parseInt(nhapMSSV.nextLine());
-
-                            System.out.print("Nhap ma lop: ");
-                            Scanner nhapMaLop = new Scanner(new InputStreamReader(System.in));
-                            String maLop = nhapMaLop.nextLine();
-
-                            System.out.print("Nhap ma mon hoc ban khong muon hoc trong hoc ky nay: ");
-                            Scanner nhapMaMonHoc = new Scanner(new InputStreamReader(System.in));
-                            String maMonHoc = nhapMaMonHoc.nextLine();
-
-                            danhSachLopMonHoc.forEach((lopMonHoc) -> {
-                                if (lopMonHoc.Lop().equals(maLop)
-                                        && lopMonHoc.MonHoc().MaMonHoc().equals(maMonHoc)) {
-                                    lopMonHoc.XoaSinhVien(maLop, maMonHoc, mssv);
-                                    lopMonHoc.Xuat();
-                                }
-                            });
-                        }
-
-                        // 2. Dang ky hoc cai thien
-                        if (luaChonMonHoc.equals("2")) {
-                            System.out.print("Nhap MSSV: ");
-                            Scanner nhapMSSV = new Scanner(System.in);
-                            int mssv = Integer.parseInt(nhapMSSV.nextLine());
-
-                            SinhVien themSinhVien = new SinhVien();
-
-                            System.out.print("Nhap ma lop cua sinh vien ban vua nhap: ");
-                            Scanner nhapMaLop = new Scanner(System.in);
-                            String maLop = nhapMaLop.nextLine();
-
-                            if (!danhSachLop.isEmpty()) {
-                                for (int lop = 0; lop < danhSachLop.size(); lop++) {
-                                    if (maLop.equals(danhSachLop)) {
-                                        themSinhVien = danhSachLop.get(lop).TimSinhVien(mssv);
-                                    }
-                                }
-                            } else {
-                                GiaoVuView.ThongBaoDSLopRong();
-                            }
-
-                            System.out.print("Nhap ma mon hoc ban muon hoc cai thien trong hoc ky nay: ");
-                            Scanner nhapMaMonHoc = new Scanner(System.in);
-                            String maMonHoc = nhapMaMonHoc.nextLine();
-
-                            for (int i = 0; i < danhSachLopMonHoc.size(); i++) {
-                                if (danhSachLopMonHoc.get(i).MonHoc().MaMonHoc().equals(maMonHoc)) {
-                                    danhSachLopMonHoc.get(i).ThemSinhVien(themSinhVien);
-                                    danhSachLopMonHoc.get(i).Xuat();
-                                }
-                            }
-                        }
-                    }
-
-                    // 5. Xem lai danh sach lop
-                    if (luaChon.equals("5")) {
-                        System.out.print("Nhap lua chon cua ban (1: Xem danh sach lop, 2: Xem danh sach lop theo mon hoc): ");
-                        Scanner nhapLuaChonLop = new Scanner(System.in);
-                        String luaChonLop = nhapLuaChonLop.nextLine();
-
-                        if (luaChonLop.equals("1")) {
-                            System.out.print("Nhap ma lop ban muon xem danh sach: ");
-                            Scanner nhapMaLop = new Scanner(new InputStreamReader(System.in));
-                            String maLop = nhapMaLop.nextLine();
-
-                            for (int i = 0; i < danhSachLop.size(); i++) {
-                                String layMaLop = danhSachLop.get(i).MaLop();
-                                if (maLop.equals(layMaLop)) {
-                                    danhSachLop.get(i).Xuat();
-                                    break;
-                                }
-                            }
-                        }
-
-                        if (luaChonLop.equals("2")) {
-                            System.out.print("Nhap ma lop: ");
-                            Scanner nhapMaLop = new Scanner(new InputStreamReader(System.in));
-                            String maLop = nhapMaLop.nextLine();
-
-                            System.out.print("Nhap ma mon hoc tuong ung: ");
-                            Scanner nhapMaMonHoc = new Scanner(new InputStreamReader(System.in));
-                            String maMonHoc = nhapMaMonHoc.nextLine();
-
-                            for (int i = 0; i < danhSachLopMonHoc.size(); i++) {
-                                String layMaLop = danhSachLopMonHoc.get(i).Lop();
-                                String layMaMonHoc = danhSachLopMonHoc.get(i).MonHoc().MaMonHoc();
-
-                                if (maLop.equals(layMaLop) && maMonHoc.equals(layMaMonHoc)) {
-                                    danhSachLopMonHoc.get(i).Xuat();
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
-                    // 6. Xem lai thoi khoa bieu
-                    if (luaChon.equals("6")) {
-                        System.out.print("Nhap lop ban muon xem thoi khoa bieu: ");
-                        Scanner nhapXemThoiKhoaBieu = new Scanner(new InputStreamReader(System.in));
-                        String xemThoiKhoaBieuLop = nhapXemThoiKhoaBieu.nextLine();
-
-                        for (int tkb = 0; tkb < danhSachThoiKhoaBieu.size(); tkb++) {
-                            String layMaLop = danhSachThoiKhoaBieu.get(tkb).Lop().MaLop();
-                            System.out.println(layMaLop);
-                            if (xemThoiKhoaBieuLop.equals(layMaLop)) {
-                                danhSachThoiKhoaBieu.get(tkb).Xuat();
+                            // 0. Thoat khoi chuong trinh
+                            if (luaChonChucNang.equals("0")) {
+                                System.out.println("Ban da thoat khoi man hinh giao vu");
                                 break;
                             }
+
+                            System.out.print("Nhap bat cu phim nao de tiep tuc chuong trinh");
+                            nhapLuaChon.nextLine();
+                            cls();
                         }
-                    }
-
-                    // 7. Them bang diem tu file csv vao he thong
-                    if (luaChon.equals("7")) {
-                        Scanner nhapBangDiem = new Scanner(new InputStreamReader(System.in));
-                        System.out.print("Nhap lop ban muon them bang diem: ");
-                        String maLop = nhapBangDiem.nextLine();
-                        System.out.print("Nhap ma mon hoc ban muon them bang diem: ");
-                        String maMonHoc = nhapBangDiem.nextLine();
-
-                        List<DiemSinhVien> danhSachDiemSinhVien = DocDanhSachDiemSinhVien(pathBangDiem + maLop + "-" + maMonHoc + ".csv", "UTF-8");
-
-                        BangDiem bangDiem = new BangDiem();
-                        bangDiem.maLop(maLop);
-                        bangDiem.maMonHoc(maMonHoc);
-                        bangDiem.danhSachDiemSinhVien(danhSachDiemSinhVien);
-                        danhSachBangDiem.add(bangDiem);
-                        GiaoVuView.ThongBaoThemBangDiemThanhCong();
-                    }
-
-                    // 8. Xem lai ban diem va thong ke
-                    if (luaChon.equals("8")) {
-                        Scanner nhapBangDiem = new Scanner(new InputStreamReader(System.in));
-                        System.out.print("Nhap lop ban muon xem bang diem: ");
-                        String tenLop = nhapBangDiem.nextLine();
-                        System.out.print("Nhap ma mon hoc ban muon xem bang diem: ");
-                        String maMonHoc = nhapBangDiem.nextLine();
-
-                        for (int bangDiem = 0; bangDiem < danhSachBangDiem.size(); bangDiem++) {
-                            if (danhSachBangDiem.get(bangDiem).MaLop().equals(tenLop)
-                                    && danhSachBangDiem.get(bangDiem).MaMonHoc().equals(maMonHoc)) {
-                                danhSachBangDiem.get(bangDiem).XetDau();
-
-                                System.out.println("So luong sinh vien dau: " + danhSachBangDiem.get(bangDiem).SoLuongSinhVienDau());
-                                danhSachBangDiem.get(bangDiem).XuatBangDiemDau();
-                                danhSachBangDiem.get(bangDiem).XuatBangDiemRot();
-
-                                System.out.println("Ty le phan tram sinh vien dau: " + danhSachBangDiem.get(bangDiem).TyLeSinhVienDau() * 100 + "%");
-                                System.out.println("Ty le phan tram sinh vien rot: " + danhSachBangDiem.get(bangDiem).TyLeSinhVienRot() * 100 + "%");
+                    } else {
+                        String taiKhoanSinhVien = "";
+                        if (!danhSachLop.isEmpty() && !tenDangNhap.equals("")) {
+                            boolean timTaiKhoanSinhVien = false;
+                            for (int lop = 0; lop < danhSachLop.size(); lop++) {
+                                if (danhSachLop.get(lop).TimTaiKhoan(tenDangNhap, matKhau)) {
+                                    timTaiKhoanSinhVien = true;
+                                    taiKhoanSinhVien = tenDangNhap;
+                                    break;
+                                }
                             }
-                        }
 
-                    }
+                            if (timTaiKhoanSinhVien) {
+                                String luaChonSinhVien = "0";
+                                // Man hinh sinh vien;
+                                do {
+                                    Scanner nhapLuaChonSinhVien = new Scanner(System.in);
+                                    SinhVienView.ManHinhChinh();
+                                    luaChonSinhVien = nhapLuaChonSinhVien.nextLine();
 
-                    // 9. Cap nhat diem cua mot sinh vien
-                    if (luaChon.equals("9")) {
-                        Scanner nhapBangDiem = new Scanner(new InputStreamReader(System.in));
-                        System.out.print("Nhap lop ban muon cap nhat bang diem: ");
-                        String tenLop = nhapBangDiem.nextLine();
-                        System.out.print("Nhap ma mon hoc ban muon cap nhat bang diem: ");
-                        String maMonHoc = nhapBangDiem.nextLine();
+                                    // 1. Xem diem sinh vien
+                                    if (luaChonSinhVien.equals("1")) {
+                                        Scanner nhapXemBangDiem = new Scanner(System.in);
+                                        System.out.println("Nhap ma mon hoc ban muon xem bang diem: ");
+                                        String maMonHoc = nhapXemBangDiem.nextLine();
 
-                        for (int bangDiem = 0; bangDiem < danhSachBangDiem.size(); bangDiem++) {
-                            if (danhSachBangDiem.get(bangDiem).MaLop().equals(tenLop)
-                                    && danhSachBangDiem.get(bangDiem).MaMonHoc().equals(maMonHoc)) {
-                                System.out.print("Nhap ma so sinh vien ban muon cap nhat diem: ");
-                                int mssv = Integer.parseInt(nhapBangDiem.nextLine());
-                                danhSachBangDiem.get(bangDiem).CapNhatDiemSinhVien(mssv);
+                                        for (int diem = 0; diem < danhSachBangDiem.size(); diem++) {
+                                            if (maMonHoc.equals(danhSachBangDiem.get(diem).MaMonHoc())) {
+                                                danhSachBangDiem.get(diem).XemDiemSinhVien(Integer.parseInt(taiKhoanSinhVien));
+                                            }
+                                            break;
+                                        }
+                                    }
+
+                                    // 2. Doi mat khau sinh vien
+                                    if (luaChonSinhVien.equals("2")) {
+                                        Scanner doiMatKhauSinhVien = new Scanner(System.in);
+
+                                        System.out.println("Nhap mat khau hien tai: ");
+                                        String matKhauHienTai = doiMatKhauSinhVien.nextLine();
+
+                                        for (int lop = 0; lop < danhSachLop.size(); lop++) {
+                                            String getMatKhau = danhSachLop.get(lop).GetMatKhauSinhVien(taiKhoanSinhVien);
+                                            if (matKhauHienTai.equals(getMatKhau)) {
+                                                System.out.println("Nhap mat khau moi: ");
+                                                String matKhauMoi = doiMatKhauSinhVien.nextLine();
+                                                System.out.println("Nhap lai mat khau moi: ");
+                                                String xacNhanMatKhauMoi = doiMatKhauSinhVien.nextLine();
+
+                                                if (matKhauMoi.equals(xacNhanMatKhauMoi)) {
+                                                    danhSachLop.get(lop).SetMatKhauSinhVien(taiKhoanSinhVien, matKhauMoi);
+                                                    DangNhapView.ThongBaoDoiMatKhauThanhCong();
+                                                } else {
+                                                    DangNhapView.ThongBaoXacNhanMatKhauKhongDung();
+                                                    DangNhapView.ThongBaoDoiMatKhauThatBai();
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    // 0. Thoat khoi man hinh sinh vien
+                                    if (luaChonSinhVien.equals("0")) {
+                                        System.out.println("Ban da thoat khoi man hinh sinh vien");
+                                    }
+                                } while (luaChonSinhVien.equals("0"));
                             }
+
+                        } else {
+                            DangNhapView.ThongBaoDangNhapThatBai();
                         }
-                    }
 
-                    // 0. Thoat khoi chuong trinh
-                    if (luaChon.equals("0")) {
-                        System.out.println("Ban da thoat khoi man hinh giao vu");
-                        break;
+                        System.out.print("Nhap bat cu phim nao de tiep tuc chuong trinh");
+                        nhapLuaChon.nextLine();
+                        cls();
                     }
-
-                    System.out.print("Nhap bat cu phim nao de tiep tuc chuong trinh");
-                    nhapLuaChon.nextLine();
                 }
             }
+
+            if (luaChon.equals("0")) {
+                System.out.println("Cam on ban da su dung chuong trinh");
+                break;
+            }
+
+            System.out.print("Nhap bat cu phim nao de tiep tuc chuong trinh");
+            nhapLuaChon.nextLine();
+            cls();
         }
     }
 }

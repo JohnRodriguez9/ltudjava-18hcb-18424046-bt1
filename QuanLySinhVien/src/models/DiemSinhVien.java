@@ -9,7 +9,6 @@ import java.util.Scanner;
 
 /**
  *
- * @author DELL
  */
 public class DiemSinhVien extends SinhVien {
     private double diemGiuaKy;

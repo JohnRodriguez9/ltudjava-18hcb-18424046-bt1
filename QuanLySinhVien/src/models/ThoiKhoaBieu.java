@@ -10,7 +10,6 @@ import java.util.List;
 
 /**
  *
- * @author Nhan
  */
 public class ThoiKhoaBieu {
     private Lop lop;

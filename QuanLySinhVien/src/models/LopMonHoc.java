@@ -12,7 +12,6 @@ import java.util.List;
 
 /**
  *
- * @author Nhan
  */
 public class LopMonHoc {
     private String lop;

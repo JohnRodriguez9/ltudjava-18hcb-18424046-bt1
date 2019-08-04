@@ -9,26 +9,37 @@ import java.util.Scanner;
 
 /**
  *
- * @author Nhan
  */
 public class SinhVien {
     protected int mssv;
     protected String hoTen;
     private String gioiTinh;
     private String cmnd;
+    private String tenDangNhap;
+    private String matKhau;
     
     public SinhVien() {
         this.mssv = -1;
         this.hoTen = "";
         this.gioiTinh = "";
         this.cmnd = "";
+        this.tenDangNhap = "";
+        this.matKhau = "";
     }
     
-    public SinhVien(int mssv, String hoTen, String gioiTinh, String cmnd) {
+    public SinhVien(
+            int mssv, 
+            String hoTen, 
+            String gioiTinh, 
+            String cmnd,
+            String tenDangNhap,
+            String matKhau) {
         this.mssv = mssv;
         this.hoTen = hoTen;
         this.gioiTinh = gioiTinh;
         this.cmnd = cmnd;
+        this.tenDangNhap = tenDangNhap;
+        this.matKhau = matKhau;
     }
     
     //getter
@@ -48,6 +59,14 @@ public class SinhVien {
         return this.cmnd;
     }
     
+    public String TenDangNhap() {
+        return this.tenDangNhap;
+    }
+    
+    public String MatKhau() {
+        return this.matKhau;
+    }
+    
     //setter
     public void mssv(int mssv) {
         this.mssv = mssv;
@@ -65,6 +84,14 @@ public class SinhVien {
         this.cmnd = cmnd;
     }
     
+    public void tenDangNhap(String tenDangNhap) {
+        this.tenDangNhap = tenDangNhap;
+    }
+    
+    public void matKhau(String matKhau) {
+        this.matKhau = matKhau;
+    }
+    
     // method
     public void Nhap() {
         Scanner nhapSV = new Scanner(System.in);
@@ -79,6 +106,9 @@ public class SinhVien {
         
         System.out.print("Nhap CMND: ");
         this.cmnd = nhapSV.nextLine();
+        
+        this.tenDangNhap = Integer.toString(this.mssv);
+        this.matKhau = Integer.toString(this.mssv);
     }
     
     public void Xuat() {

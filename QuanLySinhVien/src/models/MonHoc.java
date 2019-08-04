@@ -7,7 +7,6 @@ package models;
 
 /**
  *
- * @author Nhan
  */
 public class MonHoc {
     private String maMonHoc;

@@ -13,7 +13,6 @@ import view.GiaoVuView;
 
 /**
  *
- * @author DELL
  */
 public class BangDiem {
     private String maLop;
@@ -163,6 +162,22 @@ public class BangDiem {
                 System.out.println("Sinh vien khong ton tai trong he thong");
                 return;
             }
+        }
+    }
+    
+    public void XemDiemSinhVien(int mssv) {
+        boolean kiemTraSinhVien = false; 
+        for (int i = 0; i < this.danhSachDiemSinhVien.size(); i++) {
+            if (this.danhSachDiemSinhVien.get(i).MSSV() == mssv) {
+                System.out.printf("%10s %15s %8s %8s %8s %8s", "MSSV", "Ho ten", "Diem GK", "Diem CK", "Diem Khac", "Diem tong");
+                System.out.println();
+                this.danhSachDiemSinhVien.get(i).XuatDiem();
+                kiemTraSinhVien = true;
+            }
+        }
+        
+        if (kiemTraSinhVien == false) {
+            System.out.println("Sinh vien khong ton tai trong he thong");
         }
     }
 }
